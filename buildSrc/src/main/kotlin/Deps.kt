@@ -5,6 +5,7 @@ object Deps {
     val ktorCore = "io.ktor:ktor-client-core:$ktorVersion"
     val ktorAndroid = "io.ktor:ktor-client-android:$ktorVersion"
     val ktorIOS = "io.ktor:ktor-client-ios:$ktorVersion"
+    val ktorSerialization = "io.ktor:ktor-client-serialization:$ktorVersion"
 
     // coroutines
     private const val coroutinesVersion = "1.4.1"
