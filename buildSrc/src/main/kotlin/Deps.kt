@@ -62,5 +62,12 @@ object Deps {
         val junitAndroidX = "androidx.test.ext:junit:1.1.1"
         val expresso = "androidx.test.espresso:espresso-core:3.2.0-beta01"
         val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+
+        val ktorMock = "io.ktor:ktor-client-mock:$ktorVersion"
+
+        private const val mockKVersion = "1.10.2"
+        val mockKCommon = "io.mockk:mockk-common:$mockKVersion"
+        val mockKUnit = "io.mockk:mockk:$mockKVersion"
+        val mockKAndroid = "io.mockk:mockk-android:$mockKVersion"
     }
 }
