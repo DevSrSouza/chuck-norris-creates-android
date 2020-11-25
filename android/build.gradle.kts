@@ -43,6 +43,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":repository"))
 
     implementation(kotlin("stdlib"))
 

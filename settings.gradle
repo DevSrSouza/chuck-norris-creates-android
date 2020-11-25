@@ -1,3 +1,4 @@
 rootProject.name = "Chuck Norris Creates Android"
 include ':android'
 include ':chucknorrisfacts-api'
+include ':repository'
