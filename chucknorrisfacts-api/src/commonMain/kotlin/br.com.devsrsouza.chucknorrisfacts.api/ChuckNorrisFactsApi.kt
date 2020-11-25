@@ -1,6 +1,7 @@
 package br.com.devsrsouza.chucknorrisfacts.api
 
 import br.com.devsrsouza.chucknorrisfacts.api.model.ChuckNorrisFactsSearchResult
+import br.com.devsrsouza.chucknorrisfacts.api.result.ApiResult
 import io.ktor.client.engine.*
 
 /**
@@ -17,7 +18,7 @@ interface ChuckNorrisFactsApi {
     /**
      * Search Chuck Norris Facts at the [api.chucknorris.io] API.
      */
-    suspend fun search(queryValue: String): ChuckNorrisFactsSearchResult
+    suspend fun search(queryValue: String): ApiResult<ChuckNorrisFactsSearchResult>
 
     companion object {
         const val API_BASE_URL = "https://api.chucknorris.io/jokes"
