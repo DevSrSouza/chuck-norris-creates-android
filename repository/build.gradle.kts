@@ -9,7 +9,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(project(":chucknorrisfacts-api"))
-                implementation(Deps.coroutinesCore)
+                api(Deps.coroutinesCore)
             }
         }
         val commonTest by getting {

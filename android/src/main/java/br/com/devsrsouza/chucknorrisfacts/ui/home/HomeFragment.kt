@@ -6,16 +6,22 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import br.com.devsrsouza.chucknorrisfacts.ChuckNorrisFactsApplication
 import br.com.devsrsouza.chucknorrisfacts.R
 import br.com.devsrsouza.chucknorrisfacts.databinding.FragmentHomeBinding
 import br.com.devsrsouza.chucknorrisfacts.util.getQueryTextChangeStateFlow
+import br.com.devsrsouza.chucknorrisfacts.util.requireChuckNorrisFactsApplication
 import br.com.devsrsouza.chucknorrisfacts.util.viewBinding
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
     private val binding by viewBinding(FragmentHomeBinding::bind)
-    private val viewModel by viewModels<HomeViewModel>()
+    private val viewModel by viewModels<HomeViewModel> {
+        HomeViewModelFactory(
+            requireChuckNorrisFactsApplication().factsRepository
+        )
+    }
 
     companion object {
         fun newInstance() = HomeFragment()
