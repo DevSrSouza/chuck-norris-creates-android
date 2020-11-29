@@ -23,6 +23,9 @@ class HomeViewModelTest {
     fun `onSearchQueryChange should publish the new state to the searchQueryFlow`() = runBlockingTest {
         val searchValue = "dota"
 
+        homeViewModel.onSearchQueryChange("")
+        assertEquals("", homeViewModel.searchQueryFlow.value)
+
         homeViewModel.onSearchQueryChange(searchValue)
 
         assertEquals(searchValue, homeViewModel.searchQueryFlow.value)
