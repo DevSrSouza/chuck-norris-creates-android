@@ -43,8 +43,11 @@ android {
 }
 
 dependencies {
+    implementation(project(":repository"))
+    //implementation(project(":chucknorrisfacts-api"))
 
     implementation(kotlin("stdlib"))
+    implementation(Deps.coroutinesAndroid)
 
     implementation(Deps.AndroidX.core)
     implementation(Deps.AndroidX.appCompat)
@@ -56,4 +59,14 @@ dependencies {
     implementation(Deps.AndroidX.lifecycleExtensions)
 
     implementation(Deps.materialDesign)
+
+    implementation(Deps.ktorAndroid)
+
+    implementation(kotlin("test-junit"))
+    testImplementation(Deps.Test.junit)
+    testImplementation(Deps.Test.coroutines)
+    testImplementation(Deps.Test.mockKUnit)
+    androidTestImplementation(Deps.Test.junitAndroidX)
+    androidTestImplementation(Deps.Test.expresso)
+    androidTestImplementation(Deps.Test.mockKAndroid)
 }
