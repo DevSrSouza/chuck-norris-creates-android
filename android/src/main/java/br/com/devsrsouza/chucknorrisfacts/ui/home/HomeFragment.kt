@@ -6,9 +6,9 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import br.com.devsrsouza.chucknorrisfacts.ChuckNorrisFactsApplication
 import br.com.devsrsouza.chucknorrisfacts.R
 import br.com.devsrsouza.chucknorrisfacts.databinding.FragmentHomeBinding
+import br.com.devsrsouza.chucknorrisfacts.repository.result.RepositoryResult
 import br.com.devsrsouza.chucknorrisfacts.util.getQueryTextChangeStateFlow
 import br.com.devsrsouza.chucknorrisfacts.util.requireChuckNorrisFactsApplication
 import br.com.devsrsouza.chucknorrisfacts.util.viewBinding
@@ -16,16 +16,16 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
-    private val binding by viewBinding(FragmentHomeBinding::bind)
-    private val viewModel by viewModels<HomeViewModel> {
-        HomeViewModelFactory(
-            requireChuckNorrisFactsApplication().factsRepository
-        )
-    }
-
     companion object {
         fun newInstance() = HomeFragment()
     }
+
+    private val binding by viewBinding(FragmentHomeBinding::bind)
+    private val viewModel by viewModels<HomeViewModel> {
+        HomeViewModelFactory(requireChuckNorrisFactsApplication().factsRepository)
+    }
+
+    private lateinit var factListAdapter: FactListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +34,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.homeViewModel = viewModel
+        binding.lifecycleOwner = this
+        binding.executePendingBindings()
+
+        setupRecyclerView()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -46,6 +51,19 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.home_fragment_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    private fun setupRecyclerView() {
+        factListAdapter = FactListAdapter(viewModel)
+        binding.factRecyclerview.adapter = factListAdapter
+
+        viewModel.searchResultLiveData.observe(viewLifecycleOwner) {
+            if(it is RepositoryResult.Success) {
+                factListAdapter.submitList(it.value)
+            } else {
+                factListAdapter.submitList(emptyList())
+            }
+        }
     }
 
     private fun setupSearchChangePublishToViewModel(searchView: SearchView) {

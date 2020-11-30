@@ -21,6 +21,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 
     buildTypes {
@@ -66,7 +67,14 @@ dependencies {
     testImplementation(Deps.Test.junit)
     testImplementation(Deps.Test.coroutines)
     testImplementation(Deps.Test.mockKUnit)
+
     androidTestImplementation(Deps.Test.junitAndroidX)
-    androidTestImplementation(Deps.Test.expresso)
+    androidTestImplementation(Deps.Test.fragmentTesting)
+    androidTestImplementation(Deps.Test.testRunner)
+    androidTestImplementation(Deps.Test.testRules)
     androidTestImplementation(Deps.Test.mockKAndroid)
+
+    androidTestImplementation(Deps.Test.expresso)
+    androidTestImplementation(Deps.Test.expressoContrib)
+    implementation(Deps.Test.expressoIdlingResource)
 }

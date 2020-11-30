@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="homeViewModel"
+            type="br.com.devsrsouza.chucknorrisfacts.ui.home.HomeViewModel" />
+        <variable
+            name="fact"
+            type="br.com.devsrsouza.chucknorrisfacts.repository.model.Fact" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="@dimen/fact_card_startEnd_margin"
+            android:layout_marginEnd="@dimen/fact_card_startEnd_margin"
+            android:layout_marginTop="@dimen/fact_card_topBottom_margin"
+            android:layout_marginBottom="@dimen/fact_card_topBottom_margin"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="@dimen/fact_card_startEnd_padding"
+                android:paddingEnd="@dimen/fact_card_startEnd_padding"
+                android:paddingTop="@dimen/fact_card_topBottom_padding"
+                android:paddingBottom="@dimen/fact_card_topBottom_padding"
+                >
+
+                <TextView
+                    android:id="@+id/fact_text"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    tools:text="The Chuck Norris integration existed even before Slack existed"
+                    tools:textSize="26sp"
+                    android:text="@{fact.value}"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/category_chip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/fact_text"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="12dp"
+                    app:chipMinTouchTargetSize="0dp"
+                    tools:text="TECNOLOGY"
+                    app:factMainCategoryOrUncategorized="@{fact}"
+                    android:textAllCaps="true"
+                    android:textAppearance="?attr/textAppearanceSubtitle2"
+                    />
+
+                <ImageView
+                    android:id="@+id/share_button"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@+id/category_chip"
+                    android:src="@drawable/ic_baseline_share"
+                    app:tint="?attr/colorPrimary"
+                    android:clickable="true"
+                    android:focusable="true"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

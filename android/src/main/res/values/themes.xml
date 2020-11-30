@@ -6,11 +6,30 @@
         <item name="colorPrimaryVariant">@color/orange_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/purple_200</item>
-        <item name="colorSecondaryVariant">@color/purple_700</item>
+        <item name="colorSecondary">@color/orange_500</item>
+        <item name="colorSecondaryVariant">@color/orange_700</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+
+        <item name="background">@color/whiteBlue</item>
+
+        <item name="chipStyle">@style/Theme.ChuckNorrisCreatesAndroid.Chip</item>
+        <item name="shapeAppearanceMediumComponent">@style/Theme.ChuckNorrisCreatesAndroid.MediumShape</item>
+        <item name="materialCardViewStyle">@style/Theme.ChuckNorrisCreatesAndroid.Card</item>
+    </style>
+
+    <style name="Theme.ChuckNorrisCreatesAndroid.Chip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">?attr/colorSecondary</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+    </style>
+
+    <style name="Theme.ChuckNorrisCreatesAndroid.MediumShape" parent="ShapeAppearance.MaterialComponents.MediumComponent">
+        <item name="cornerSize">16dp</item>
+    </style>
+
+    <style name="Theme.ChuckNorrisCreatesAndroid.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="cardElevation">6dp</item>
     </style>
 </resources>

@@ -2,7 +2,6 @@ package br.com.devsrsouza.chucknorrisfacts.ui.home
 
 import br.com.devsrsouza.chucknorrisfacts.repository.ChuckNorrisFactsRepository
 import io.mockk.mockk
-import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
@@ -20,7 +19,7 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `onSearchQueryChange should publish the new state to the searchQueryFlow`() = runBlockingTest {
+    fun `onSearchQueryChange should publish the new state to the searchQueryFlow`() {
         val searchValue = "dota"
 
         homeViewModel.onSearchQueryChange("")
