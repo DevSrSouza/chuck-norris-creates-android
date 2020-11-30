@@ -60,7 +60,12 @@ object Deps {
     object Test {
         val junit = "junit:junit:4.12"
         val junitAndroidX = "androidx.test.ext:junit:1.1.1"
+        val fragmentTesting = "androidx.fragment:fragment-testing:1.2.5"
         val expresso = "androidx.test.espresso:espresso-core:3.2.0-beta01"
+        val expressoIdlingResource = "androidx.test.espresso:espresso-idling-resource:3.2.0-beta01"
+        val expressoContrib = "androidx.test.espresso:espresso-contrib:3.2.0-beta01"
+        val testRunner = "androidx.test:runner:1.1.0"
+        val testRules = "androidx.test:rules:1.1.0"
         val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
 
         val ktorMock = "io.ktor:ktor-client-mock:$ktorVersion"

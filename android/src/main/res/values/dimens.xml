@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="fact_card_startEnd_margin">16dp</dimen>
+    <dimen name="fact_card_topBottom_margin">8dp</dimen>
+    <dimen name="fact_card_startEnd_padding">12dp</dimen>
+    <dimen name="fact_card_topBottom_padding">8dp</dimen>
+</resources>
