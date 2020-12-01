@@ -73,8 +73,5 @@ jobs:
           service_account_key: ${{ secrets.SERVICE_ACCOUNT }}
           export_default_credentials: true
 
-      - name: Set current project
-        run: gcloud config set project ${{ secrets.FIREBASE_PROJECT_ID }}
-
       - name: Run Instrumentation Tests in Firebase Test Lab
         run: gcloud firebase test android run --type instrumentation --app app-debug/android-debug.apk --test app-debug-androidTest/android-debug-androidTest.apk --device model=Pixel2,version=29,locale=en,orientation=portrait
