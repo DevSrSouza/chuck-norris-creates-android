@@ -2,6 +2,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven("https://dl.bintray.com/andreyberyukhov/FlowReactiveNetwork")
     }
 }
 

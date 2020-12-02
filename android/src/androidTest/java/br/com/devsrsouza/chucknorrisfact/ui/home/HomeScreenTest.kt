@@ -12,7 +12,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import br.com.devsrsouza.chucknorrisfact.repository.FakeChuckNorrisFactsRepository
 import br.com.devsrsouza.chucknorrisfact.util.DataBindingIdlingResource
 import br.com.devsrsouza.chucknorrisfact.util.monitorActivity
-import br.com.devsrsouza.chucknorrisfacts.MainActivity
+import br.com.devsrsouza.chucknorrisfacts.ui.MainActivity
 import br.com.devsrsouza.chucknorrisfacts.R
 import br.com.devsrsouza.chucknorrisfacts.di.ServiceLocator
 import br.com.devsrsouza.chucknorrisfacts.repository.model.Fact

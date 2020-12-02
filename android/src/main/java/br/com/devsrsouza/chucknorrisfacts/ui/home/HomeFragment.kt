@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import br.com.devsrsouza.chucknorrisfacts.R
 import br.com.devsrsouza.chucknorrisfacts.databinding.FragmentHomeBinding
+import br.com.devsrsouza.chucknorrisfacts.model.UIState
 import br.com.devsrsouza.chucknorrisfacts.repository.result.RepositoryResult
 import br.com.devsrsouza.chucknorrisfacts.util.getQueryTextChangeStateFlow
 import br.com.devsrsouza.chucknorrisfacts.util.requireChuckNorrisFactsApplication
@@ -22,7 +23,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     private val binding by viewBinding(FragmentHomeBinding::bind)
     private val viewModel by viewModels<HomeViewModel> {
-        HomeViewModelFactory(requireChuckNorrisFactsApplication().factsRepository)
+        val app = requireChuckNorrisFactsApplication()
+        HomeViewModelFactory(
+            app.factsRepository,
+            app.networkStateFlow
+        )
     }
 
     private lateinit var factListAdapter: FactListAdapter
@@ -58,7 +63,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.factRecyclerview.adapter = factListAdapter
 
         viewModel.searchResultLiveData.observe(viewLifecycleOwner) {
-            if(it is RepositoryResult.Success) {
+            if(it is UIState.Success) {
                 factListAdapter.submitList(it.value)
             } else {
                 factListAdapter.submitList(emptyList())

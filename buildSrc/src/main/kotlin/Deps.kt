@@ -29,6 +29,9 @@ object Deps {
 
     val materialDesign = "com.google.android.material:material:$materialDesignVersion"
 
+
+    val flowReactiveNetwork = "ru.beryukhov:flowreactivenetwork:1.0.2"
+
     object AndroidX {
         private const val coreVersion = "1.3.2"
         val core = "androidx.core:core-ktx:$coreVersion"
