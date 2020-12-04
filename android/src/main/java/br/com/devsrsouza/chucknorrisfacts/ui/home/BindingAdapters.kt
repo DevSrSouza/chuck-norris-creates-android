@@ -27,10 +27,20 @@ fun Chip.factMainCategoryOrUncategorized(fact: Fact) {
 }
 
 @BindingAdapter("app:textStateError")
-fun TextView.textStateError(state: UIState<*>) {
+fun TextView.textStateError(state: UIState<*>?) {
     when(state) {
         is UIState.NetworkNotAvailable -> setText(R.string.network_not_available)
         is UIState.Error -> setText(R.string.search_error)
         is UIState.NetworkClientError -> setText(state.message)
     }
+}
+
+@BindingAdapter("app:visibleWhenIsNotEmpty")
+fun View.visibleIfContainsResult(state: UIState<List<Fact>>?) {
+    visibleIf(state is UIState.Success && state.value.isNotEmpty())
+}
+
+@BindingAdapter("app:visibleWhenIsEmpty")
+fun View.visibleIfDoesNotContainsResult(state: UIState<List<Fact>>?) {
+    visibleIf(state is UIState.Success && state.value.isEmpty())
 }

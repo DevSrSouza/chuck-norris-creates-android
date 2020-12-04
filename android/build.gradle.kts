@@ -62,8 +62,6 @@ dependencies {
 
     implementation(Deps.ktorAndroid)
 
-    implementation(Deps.flowReactiveNetwork)
-
     // Testing
     testImplementation(kotlin("test-junit"))
     testImplementation(Deps.Test.junit)
