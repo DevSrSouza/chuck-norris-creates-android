@@ -31,16 +31,22 @@ class HomeViewModel(
             .flowOn(Dispatchers.Default)
             .flatMapLatest {
                 flow<UIState<List<Fact>>> {
+                    // check if there is Network unavailable
                     if(!networkStateFlow.value) {
+                        // if not, emit NetworkNotAvailable State
                         emit(UIState.NetworkNotAvailable())
 
+                        // Await until receive a update from the Network with State true.
                         networkStateFlow.first { it }
                     }
+
                     when {
-                        it.isBlank() -> emit(UIState.None())
+                        it.isBlank() -> emit(UIState.None()) // if there is not text, emit state None
                         else -> {
+                            // if there is search text, emit first Loading state
                             emit(UIState.Loading())
 
+                            // and emit the result from the network when the API respond in the future.
                             emit(repositoryResultAsUIState(factsRepository.searchFact(it)))
                         }
                     }
