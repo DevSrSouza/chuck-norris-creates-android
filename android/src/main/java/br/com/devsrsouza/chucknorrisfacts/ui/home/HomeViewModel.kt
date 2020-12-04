@@ -31,6 +31,11 @@ class HomeViewModel(
             .flowOn(Dispatchers.Default)
             .flatMapLatest {
                 flow<UIState<List<Fact>>> {
+                    if(!networkStateFlow.value) {
+                        emit(UIState.NetworkNotAvailable())
+
+                        networkStateFlow.first { it }
+                    }
                     when {
                         it.isBlank() -> emit(UIState.None())
                         else -> {
