@@ -67,6 +67,8 @@ dependencies {
     testImplementation(Deps.Test.junit)
     testImplementation(Deps.Test.coroutines)
     testImplementation(Deps.Test.mockKUnit)
+    testImplementation(Deps.Test.flowTestObserver)
+    testImplementation(Deps.Test.coreTesting)
 
     androidTestImplementation(Deps.Test.junitAndroidX)
     androidTestImplementation(Deps.Test.fragmentTesting)

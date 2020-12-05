@@ -25,7 +25,7 @@ class HomeViewModel(
     private val _searchQueryFlow = MutableStateFlow<String>("")
     val searchQueryFlow: StateFlow<String> = _searchQueryFlow
 
-    private val searchResultStateFlow: Flow<UIState<List<Fact>>> = _searchQueryFlow
+    val searchResultFlow: Flow<UIState<List<Fact>>> = _searchQueryFlow
             .debounce(SEARCH_DEBOUNCE_TIME_MS)
             .distinctUntilChanged()
             .flowOn(Dispatchers.Default)
@@ -50,11 +50,10 @@ class HomeViewModel(
                             emit(repositoryResultAsUIState(factsRepository.searchFact(it)))
                         }
                     }
-
                 }
             }
 
-    val searchResultLiveData: LiveData<UIState<List<Fact>>> = searchResultStateFlow.asLiveData()
+    val searchResultLiveData: LiveData<UIState<List<Fact>>> = searchResultFlow.asLiveData()
 
     fun onSearchQueryChange(value: String) {
         _searchQueryFlow.value = value

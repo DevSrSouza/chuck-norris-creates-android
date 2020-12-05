@@ -2,7 +2,7 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven("https://dl.bintray.com/andreyberyukhov/FlowReactiveNetwork")
+        maven("https://jitpack.io")
     }
 }
 

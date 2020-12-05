@@ -29,9 +29,6 @@ object Deps {
 
     val materialDesign = "com.google.android.material:material:$materialDesignVersion"
 
-
-    val flowReactiveNetwork = "ru.beryukhov:flowreactivenetwork:1.0.2"
-
     object AndroidX {
         private const val coreVersion = "1.3.2"
         val core = "androidx.core:core-ktx:$coreVersion"
@@ -64,14 +61,19 @@ object Deps {
         val junit = "junit:junit:4.12"
         val junitAndroidX = "androidx.test.ext:junit:1.1.1"
         val fragmentTesting = "androidx.fragment:fragment-testing:1.2.5"
+        val coreTesting = "androidx.arch.core:core-testing:2.1.0"
         val expresso = "androidx.test.espresso:espresso-core:3.2.0-beta01"
         val expressoIdlingResource = "androidx.test.espresso:espresso-idling-resource:3.2.0-beta01"
         val expressoContrib = "androidx.test.espresso:espresso-contrib:3.2.0-beta01"
         val testRunner = "androidx.test:runner:1.1.0"
         val testRules = "androidx.test:rules:1.1.0"
+
         val coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+        // https://github.com/ologe/flow-test-observer
+        val flowTestObserver = "com.github.ologe:flow-test-observer:1.5.0"
 
         val ktorMock = "io.ktor:ktor-client-mock:$ktorVersion"
+
 
         private const val mockKVersion = "1.10.2"
         val mockKCommon = "io.mockk:mockk-common:$mockKVersion"
