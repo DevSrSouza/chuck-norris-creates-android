@@ -1,4 +1,4 @@
-package br.com.devsrsouza.chucknorrisfacts.ui.home
+package br.com.devsrsouza.chucknorrisfacts.ui
 
 import android.util.TypedValue
 import android.view.View
@@ -8,7 +8,6 @@ import br.com.devsrsouza.chucknorrisfacts.R
 import br.com.devsrsouza.chucknorrisfacts.model.UIState
 import br.com.devsrsouza.chucknorrisfacts.repository.model.Fact
 import br.com.devsrsouza.chucknorrisfacts.repository.model.mainCategoryOrNull
-import br.com.devsrsouza.chucknorrisfacts.repository.result.RepositoryResult
 import com.google.android.material.chip.Chip
 
 @BindingAdapter("app:visibleIf")
@@ -17,7 +16,7 @@ fun View.visibleIf(value: Boolean) {
 }
 
 @BindingAdapter("app:factMainCategoryOrUncategorized")
-fun Chip.factMainCategoryOrUncategorized(fact: Fact) {
+fun TextView.factMainCategoryOrUncategorized(fact: Fact) {
     val category = fact.mainCategoryOrNull
 
     if(category != null) {
