@@ -45,7 +45,6 @@ android {
 
 dependencies {
     implementation(project(":repository"))
-    //implementation(project(":chucknorrisfacts-api"))
 
     implementation(kotlin("stdlib"))
     implementation(Deps.coroutinesAndroid)
@@ -63,10 +62,13 @@ dependencies {
 
     implementation(Deps.ktorAndroid)
 
-    implementation(kotlin("test-junit"))
+    // Testing
+    testImplementation(kotlin("test-junit"))
     testImplementation(Deps.Test.junit)
     testImplementation(Deps.Test.coroutines)
     testImplementation(Deps.Test.mockKUnit)
+    testImplementation(Deps.Test.flowTestObserver)
+    testImplementation(Deps.Test.coreTesting)
 
     androidTestImplementation(Deps.Test.junitAndroidX)
     androidTestImplementation(Deps.Test.fragmentTesting)

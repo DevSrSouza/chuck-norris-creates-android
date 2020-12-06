@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="br.com.devsrsouza.chucknorrisfacts.repository.result.RepositoryResult" />
+        <import type="br.com.devsrsouza.chucknorrisfacts.model.UIState" />
         <variable
             name="homeViewModel"
             type="br.com.devsrsouza.chucknorrisfacts.ui.home.HomeViewModel" />
@@ -16,7 +16,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/fact_recyclerview"
-            app:visibleIf="@{homeViewModel.searchResultLiveData instanceof RepositoryResult.Success}"
+            app:visibleWhenIsNotEmpty="@{homeViewModel.searchResultLiveData}"
+            tools:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -26,6 +27,67 @@
             android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/chuck_norris_fact_card_item" />
+
+        <TextView
+            app:visibleWhenIsEmpty="@{homeViewModel.searchResultLiveData}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:text="@string/no_fact_found"
+            android:textAlignment="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            />
+
+        <ProgressBar
+            android:id="@+id/loading_view"
+            app:visibleIf="@{homeViewModel.searchResultLiveData instanceof UIState.Loading}"
+            tools:visibility="gone"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:indeterminate="true"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <LinearLayout
+            android:id="@+id/error_layout"
+            app:visibleIf="@{homeViewModel.searchResultLiveData instanceof UIState.UIStateError}"
+            tools:visibility="gone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:src="@drawable/ic_error_outline"
+                app:tint="?attr/colorPrimary" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?attr/textAppearanceSubtitle1"
+                app:textStateError="@{homeViewModel.searchResultLiveData}"
+                android:textAlignment="center"
+                tools:text="Query value most be greater then 3"
+                />
+
+        </LinearLayout>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

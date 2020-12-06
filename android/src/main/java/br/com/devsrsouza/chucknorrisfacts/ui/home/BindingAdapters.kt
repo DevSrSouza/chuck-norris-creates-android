@@ -1,8 +1,10 @@
 package br.com.devsrsouza.chucknorrisfacts.ui.home
 
 import android.view.View
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import br.com.devsrsouza.chucknorrisfacts.R
+import br.com.devsrsouza.chucknorrisfacts.model.UIState
 import br.com.devsrsouza.chucknorrisfacts.repository.model.Fact
 import br.com.devsrsouza.chucknorrisfacts.repository.model.mainCategoryOrNull
 import br.com.devsrsouza.chucknorrisfacts.repository.result.RepositoryResult
@@ -22,4 +24,23 @@ fun Chip.factMainCategoryOrUncategorized(fact: Fact) {
     } else {
         setText(R.string.uncategorized_fact)
     }
+}
+
+@BindingAdapter("app:textStateError")
+fun TextView.textStateError(state: UIState<*>?) {
+    when(state) {
+        is UIState.NetworkNotAvailable -> setText(R.string.network_not_available)
+        is UIState.Error -> setText(R.string.search_error)
+        is UIState.NetworkClientError -> setText(state.message)
+    }
+}
+
+@BindingAdapter("app:visibleWhenIsNotEmpty")
+fun View.visibleIfContainsResult(state: UIState<List<Fact>>?) {
+    visibleIf(state is UIState.Success && state.value.isNotEmpty())
+}
+
+@BindingAdapter("app:visibleWhenIsEmpty")
+fun View.visibleIfDoesNotContainsResult(state: UIState<List<Fact>>?) {
+    visibleIf(state is UIState.Success && state.value.isEmpty())
 }

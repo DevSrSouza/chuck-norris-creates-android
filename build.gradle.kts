@@ -2,6 +2,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven("https://jitpack.io")
     }
 }
 

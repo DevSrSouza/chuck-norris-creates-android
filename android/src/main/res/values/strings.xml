@@ -3,4 +3,7 @@
 
     <string name="search_title">Search</string>
     <string name="uncategorized_fact">Uncategorized</string>
+    <string name="search_error">Could not complete the search, please try again later.</string>
+    <string name="network_not_available">Your network connectivity is unavailable.</string>
+    <string name="no_fact_found">Facts not found with the search value</string>
 </resources>

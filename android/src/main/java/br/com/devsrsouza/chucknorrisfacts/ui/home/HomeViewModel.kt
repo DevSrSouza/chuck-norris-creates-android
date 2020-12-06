@@ -1,17 +1,20 @@
 package br.com.devsrsouza.chucknorrisfacts.ui.home
 
 import androidx.annotation.VisibleForTesting
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
+import androidx.lifecycle.*
+import br.com.devsrsouza.chucknorrisfacts.model.UIState
+import br.com.devsrsouza.chucknorrisfacts.model.repositoryResultAsUIState
 import br.com.devsrsouza.chucknorrisfacts.repository.ChuckNorrisFactsRepository
 import br.com.devsrsouza.chucknorrisfacts.repository.model.Fact
-import br.com.devsrsouza.chucknorrisfacts.repository.result.RepositoryResult
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
+// Dependency resolve bug in Kotlin with inner module, everything compiles,
+// but the IDE does not resolve.
+// https://youtrack.jetbrains.com/issue/KT-24309
 class HomeViewModel(
-        private val factsRepository: ChuckNorrisFactsRepository
+        private val factsRepository: ChuckNorrisFactsRepository,
+        private val networkStateFlow: StateFlow<Boolean>
 ) : ViewModel() {
 
     companion object {
@@ -22,31 +25,46 @@ class HomeViewModel(
     private val _searchQueryFlow = MutableStateFlow<String>("")
     val searchQueryFlow: StateFlow<String> = _searchQueryFlow
 
-    val searchResultFlow: Flow<RepositoryResult<List<Fact>>> = _searchQueryFlow
-        .debounce(SEARCH_DEBOUNCE_TIME_MS)
-        .filter(String::isNotBlank)
-        .distinctUntilChanged()
-        .flatMapLatest {
-            flow {
-                emit(factsRepository.searchFact(it))
-            }
-        }
+    val searchResultFlow: Flow<UIState<List<Fact>>> = _searchQueryFlow
+            .debounce(SEARCH_DEBOUNCE_TIME_MS)
+            .distinctUntilChanged()
+            .flowOn(Dispatchers.Default)
+            .flatMapLatest {
+                flow<UIState<List<Fact>>> {
+                    // check if there is Network unavailable
+                    if(!networkStateFlow.value) {
+                        // if not, emit NetworkNotAvailable State
+                        emit(UIState.NetworkNotAvailable())
 
-    val searchResultLiveData: LiveData<RepositoryResult<List<Fact>>> = searchResultFlow.asLiveData()
+                        // Await until receive a update from the Network with State true.
+                        networkStateFlow.first { it }
+                    }
+
+                    when {
+                        it.isBlank() -> emit(UIState.None()) // if there is not text, emit state None
+                        else -> {
+                            // if there is search text, emit first Loading state
+                            emit(UIState.Loading())
+
+                            // and emit the result from the network when the API respond in the future.
+                            emit(repositoryResultAsUIState(factsRepository.searchFact(it)))
+                        }
+                    }
+                }
+            }
+
+    val searchResultLiveData: LiveData<UIState<List<Fact>>> = searchResultFlow.asLiveData()
 
     fun onSearchQueryChange(value: String) {
         _searchQueryFlow.value = value
     }
 
-    init {
-
-    }
-
 }
 
 class HomeViewModelFactory(
-        private val factsRepository: ChuckNorrisFactsRepository
+        private val factsRepository: ChuckNorrisFactsRepository,
+        private val networkStateFlow: StateFlow<Boolean>,
 ) : ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel> create(modelClass: Class<T>) =
-            (HomeViewModel(factsRepository) as T)
+            (HomeViewModel(factsRepository, networkStateFlow) as T)
 }
