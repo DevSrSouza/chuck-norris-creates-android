@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import br.com.devsrsouza.chucknorrisfacts.R
 import br.com.devsrsouza.chucknorrisfacts.databinding.FragmentHomeBinding
+import br.com.devsrsouza.chucknorrisfacts.di.ServiceLocator
 import br.com.devsrsouza.chucknorrisfacts.model.UIState
 import br.com.devsrsouza.chucknorrisfacts.repository.result.RepositoryResult
 import br.com.devsrsouza.chucknorrisfacts.util.getQueryTextChangeStateFlow
@@ -26,7 +27,8 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         val app = requireChuckNorrisFactsApplication()
         HomeViewModelFactory(
             app.factsRepository,
-            app.networkStateFlow
+            app.networkStateFlow,
+            ServiceLocator.provideContentShare(requireActivity())
         )
     }
 

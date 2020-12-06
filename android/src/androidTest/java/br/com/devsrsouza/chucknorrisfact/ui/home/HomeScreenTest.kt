@@ -11,16 +11,19 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import br.com.devsrsouza.chucknorrisfact.repository.FakeChuckNorrisFactsRepository
-import br.com.devsrsouza.chucknorrisfact.util.DataBindingIdlingResource
-import br.com.devsrsouza.chucknorrisfact.util.monitorActivity
-import br.com.devsrsouza.chucknorrisfact.util.withFontSize
+import br.com.devsrsouza.chucknorrisfact.testutil.DataBindingIdlingResource
+import br.com.devsrsouza.chucknorrisfact.testutil.monitorActivity
+import br.com.devsrsouza.chucknorrisfact.testutil.withFontSize
+import br.com.devsrsouza.chucknorrisfact.util.share.FakeContentShare
 import br.com.devsrsouza.chucknorrisfacts.ui.MainActivity
 import br.com.devsrsouza.chucknorrisfacts.R
 import br.com.devsrsouza.chucknorrisfacts.di.ServiceLocator
 import br.com.devsrsouza.chucknorrisfacts.repository.model.Fact
 import br.com.devsrsouza.chucknorrisfacts.repository.model.mainCategoryOrNull
 import br.com.devsrsouza.chucknorrisfacts.ui.home.HomeViewModel
+import br.com.devsrsouza.chucknorrisfacts.util.share.ContentShare
 import kotlinx.coroutines.flow.MutableStateFlow
+import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.not
 import org.junit.After
 import org.junit.Before
@@ -32,6 +35,7 @@ class HomeScreenTest {
 
     private val fakeRepository: FakeChuckNorrisFactsRepository = FakeChuckNorrisFactsRepository()
     private val networkAvailabilityState: MutableStateFlow<Boolean> = MutableStateFlow(true)
+    private val fakeContentShare: FakeContentShare = FakeContentShare()
 
     private val dataBindingIdlingResource = DataBindingIdlingResource()
 
@@ -41,6 +45,7 @@ class HomeScreenTest {
 
         ServiceLocator.factsRepository = fakeRepository
         ServiceLocator.networkStateFlow = networkAvailabilityState
+        ServiceLocator.contentShare = fakeContentShare
     }
 
     @Before
@@ -57,6 +62,7 @@ class HomeScreenTest {
     fun reset() {
         fakeRepository.reset()
         networkAvailabilityState.value = true
+        fakeContentShare.reset()
     }
 
     @Test
@@ -274,6 +280,36 @@ class HomeScreenTest {
         onView(withText(fact.value)).check(matches(isDisplayed()))
         onView(withText(fact.mainCategoryOrNull)).check(matches(isDisplayed()))
         onView(withText(fact.value)).check(matches(withFontSize(expectedFontSize)))
+
+        activityScenario.close()
+    }
+
+    @Test
+    fun Should_share_the_fact_when_clicked_on_share_button() {
+        val fact = Fact(
+                "0001",
+                listOf("Games"),
+                "One Chuck Norris Fact"
+        )
+        fakeRepository.setSuccess(listOf(fact))
+        fakeRepository.setResponseDelay(1000)
+
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+
+        onView(withId(R.id.fact_recyclerview)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.search_item)).perform(click())
+        onView(isAssignableFrom(EditText::class.java)).perform(typeText("Dota"))
+
+        onView(withId(R.id.loading_view)).check(matches(isDisplayed()))
+
+        Thread.sleep(1100)
+
+        onView(withId(R.id.share_button))
+                .check(matches(isDisplayed()))
+                .perform(click())
+
+        assertThat(fakeContentShare.textToBeShared, `is`(fact.value))
 
         activityScenario.close()
     }
