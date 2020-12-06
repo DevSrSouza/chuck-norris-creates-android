@@ -6,6 +6,7 @@ import br.com.devsrsouza.chucknorrisfacts.model.UIState
 import br.com.devsrsouza.chucknorrisfacts.model.repositoryResultAsUIState
 import br.com.devsrsouza.chucknorrisfacts.repository.ChuckNorrisFactsRepository
 import br.com.devsrsouza.chucknorrisfacts.repository.model.Fact
+import br.com.devsrsouza.chucknorrisfacts.util.share.ContentShare
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 
@@ -14,7 +15,8 @@ import kotlinx.coroutines.flow.*
 // https://youtrack.jetbrains.com/issue/KT-24309
 class HomeViewModel(
         private val factsRepository: ChuckNorrisFactsRepository,
-        private val networkStateFlow: StateFlow<Boolean>
+        private val networkStateFlow: StateFlow<Boolean>,
+        private val contentShare: ContentShare
 ) : ViewModel() {
 
     companion object {
@@ -59,12 +61,17 @@ class HomeViewModel(
         _searchQueryFlow.value = value
     }
 
+    fun shareFact(fact: Fact) {
+        contentShare.shareText(fact.value)
+    }
+
 }
 
 class HomeViewModelFactory(
         private val factsRepository: ChuckNorrisFactsRepository,
         private val networkStateFlow: StateFlow<Boolean>,
+        private val contentShare: ContentShare,
 ) : ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel> create(modelClass: Class<T>) =
-            (HomeViewModel(factsRepository, networkStateFlow) as T)
+            (HomeViewModel(factsRepository, networkStateFlow, contentShare) as T)
 }

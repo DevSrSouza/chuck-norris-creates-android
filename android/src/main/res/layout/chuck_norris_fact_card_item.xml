@@ -74,6 +74,7 @@
                     app:tint="?attr/colorPrimary"
                     android:clickable="true"
                     android:focusable="true"
+                    android:onClick="@{() -> homeViewModel.shareFact(fact)}"
                     />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
