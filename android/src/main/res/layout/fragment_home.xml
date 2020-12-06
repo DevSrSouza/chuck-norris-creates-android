@@ -42,6 +42,7 @@
             />
 
         <ProgressBar
+            android:id="@+id/loading_view"
             app:visibleIf="@{homeViewModel.searchResultLiveData instanceof UIState.Loading}"
             tools:visibility="gone"
             android:layout_width="80dp"
@@ -54,6 +55,7 @@
             />
 
         <LinearLayout
+            android:id="@+id/error_layout"
             app:visibleIf="@{homeViewModel.searchResultLiveData instanceof UIState.UIStateError}"
             tools:visibility="gone"
             android:layout_width="0dp"
