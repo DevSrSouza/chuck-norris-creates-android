@@ -9,9 +9,11 @@ import androidx.test.espresso.action.ViewActions.typeText
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import br.com.devsrsouza.chucknorrisfact.repository.FakeChuckNorrisFactsRepository
 import br.com.devsrsouza.chucknorrisfact.util.DataBindingIdlingResource
 import br.com.devsrsouza.chucknorrisfact.util.monitorActivity
+import br.com.devsrsouza.chucknorrisfact.util.withFontSize
 import br.com.devsrsouza.chucknorrisfacts.ui.MainActivity
 import br.com.devsrsouza.chucknorrisfacts.R
 import br.com.devsrsouza.chucknorrisfacts.di.ServiceLocator
@@ -204,6 +206,74 @@ class HomeScreenTest {
         Thread.sleep(1100)
 
         onView(withText(R.string.search_error)).check(matches(isDisplayed()))
+
+        activityScenario.close()
+    }
+
+    @Test
+    fun Should_display_the_fact_with_the_bigger_font() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val charCount = context.resources.getInteger(R.integer.fact_char_count_for_small_font)
+        val expectedFontSize = context.resources.getDimension(R.dimen.fact_big_font_size)
+
+        val text = "G".repeat(charCount-1)
+
+        val fact = Fact(
+                "0001",
+                listOf("Games"),
+                text
+        )
+        fakeRepository.setSuccess(listOf(fact))
+        fakeRepository.setResponseDelay(1000)
+
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+
+        onView(withId(R.id.fact_recyclerview)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.search_item)).perform(click())
+        onView(isAssignableFrom(EditText::class.java)).perform(typeText("Dota"))
+
+        onView(withId(R.id.loading_view)).check(matches(isDisplayed()))
+
+        Thread.sleep(1100)
+
+        onView(withText(fact.value)).check(matches(isDisplayed()))
+        onView(withText(fact.mainCategoryOrNull)).check(matches(isDisplayed()))
+        onView(withText(fact.value)).check(matches(withFontSize(expectedFontSize)))
+
+        activityScenario.close()
+    }
+
+    @Test
+    fun Should_display_the_fact_with_the_small_font() {
+        val context = InstrumentationRegistry.getInstrumentation().targetContext
+        val charCount = context.resources.getInteger(R.integer.fact_char_count_for_small_font)
+        val expectedFontSize = context.resources.getDimension(R.dimen.fact_small_font_size)
+
+        val text = "G".repeat(charCount)
+
+        val fact = Fact(
+                "0001",
+                listOf("Games"),
+                text
+        )
+        fakeRepository.setSuccess(listOf(fact))
+        fakeRepository.setResponseDelay(1000)
+
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+
+        onView(withId(R.id.fact_recyclerview)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.search_item)).perform(click())
+        onView(isAssignableFrom(EditText::class.java)).perform(typeText("Dota"))
+
+        onView(withId(R.id.loading_view)).check(matches(isDisplayed()))
+
+        Thread.sleep(1100)
+
+        onView(withText(fact.value)).check(matches(isDisplayed()))
+        onView(withText(fact.mainCategoryOrNull)).check(matches(isDisplayed()))
+        onView(withText(fact.value)).check(matches(withFontSize(expectedFontSize)))
 
         activityScenario.close()
     }
