@@ -4,4 +4,7 @@
     <dimen name="fact_card_topBottom_margin">8dp</dimen>
     <dimen name="fact_card_startEnd_padding">12dp</dimen>
     <dimen name="fact_card_topBottom_padding">8dp</dimen>
+
+    <dimen name="fact_big_font_size">24sp</dimen>
+    <dimen name="fact_small_font_size">16sp</dimen>
 </resources>

@@ -43,8 +43,8 @@
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
                     tools:text="The Chuck Norris integration existed even before Slack existed"
-                    tools:textSize="26sp"
                     android:text="@{fact.value}"
+                    app:factTextWithAdaptedSize="@{fact.value}"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />

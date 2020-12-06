@@ -1,5 +1,6 @@
 package br.com.devsrsouza.chucknorrisfacts.ui.home
 
+import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
@@ -43,4 +44,18 @@ fun View.visibleIfContainsResult(state: UIState<List<Fact>>?) {
 @BindingAdapter("app:visibleWhenIsEmpty")
 fun View.visibleIfDoesNotContainsResult(state: UIState<List<Fact>>?) {
     visibleIf(state is UIState.Success && state.value.isEmpty())
+}
+
+@BindingAdapter("app:factTextWithAdaptedSize")
+fun TextView.factTextWithAdaptedSize(text: String) {
+    val charForSmall = resources.getInteger(R.integer.fact_char_count_for_small_font)
+
+    setTextSize(
+        TypedValue.COMPLEX_UNIT_PX,
+        resources.getDimension(
+            if(text.length >= charForSmall)
+                R.dimen.fact_small_font_size
+            else R.dimen.fact_big_font_size
+        )
+    )
 }
