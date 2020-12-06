@@ -1,4 +1,4 @@
-package br.com.devsrsouza.chucknorrisfact.util
+package br.com.devsrsouza.chucknorrisfact.testutil
 
 import android.view.View
 import android.widget.TextView

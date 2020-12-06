@@ -7,8 +7,11 @@ import br.com.devsrsouza.chucknorrisfacts.model.UIState
 import br.com.devsrsouza.chucknorrisfacts.repository.ChuckNorrisFactsRepository
 import br.com.devsrsouza.chucknorrisfacts.repository.model.Fact
 import br.com.devsrsouza.chucknorrisfacts.repository.result.RepositoryResult
+import br.com.devsrsouza.chucknorrisfacts.util.share.ContentShare
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.Channel.Factory.UNLIMITED
@@ -27,6 +30,7 @@ import kotlin.test.assertTrue
 class HomeViewModelTest {
 
     private lateinit var factsRepository: ChuckNorrisFactsRepository
+    private lateinit var contentShare: ContentShare
     private lateinit var homeViewModel: HomeViewModel
     private val networkStateFlow = MutableStateFlow(false)
     private val testDispatcher = TestCoroutineDispatcher()
@@ -38,8 +42,9 @@ class HomeViewModelTest {
     fun setupViewModel() {
         Dispatchers.setMain(testDispatcher)
         factsRepository = mockk()
+        contentShare = mockk()
 
-        homeViewModel = HomeViewModel(factsRepository, networkStateFlow)
+        homeViewModel = HomeViewModel(factsRepository, networkStateFlow, contentShare)
     }
 
     @Test
@@ -217,6 +222,17 @@ class HomeViewModelTest {
         assertTrue(loadingState is UIState.Loading)
         assertTrue(errorState is UIState.Error)
         assertEquals(error, errorState.error)
+    }
+
+    @Test
+    fun `shareFact should share the Fact value`() = runBlocking {
+        val fact = Fact("00001", listOf("Games"), "Simple fact")
+
+        every { contentShare.shareText(fact.value) } returns Unit
+
+        homeViewModel.shareFact(fact)
+
+        verify { contentShare.shareText(fact.value) }
     }
 
 }
