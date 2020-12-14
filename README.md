@@ -24,3 +24,18 @@ The apk will be generated to `android/build/outputs/apk/debug`
 ## Illustration
 
 ![](https://media.giphy.com/media/SWSTrCNksuVdYDI9vr/giphy.gif)
+
+## Modules
+
+- chucknorrisfacts-api: Module that contains the API calls for the `https://api.chucknorris.io/`.
+It uses Kotlin Multiplatform to be a module independent of platform adding possibility to use it on a iOS app. 
+It uses [Ktor Client](https://ktor.io/docs/client.html) as a network library and it uses [Kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) for parsing JSON.
+
+- repository: Is a Repository Pattern module, also Kotlin Multiplatform, currently, it's only uses **Network Source**(chucknorrisfacts-api), but if the project requires Local Source(SQLDelight) is painless to implement.
+
+- android: The android application allows the user to search for chuck norris facts (from `https://api.chucknorris.io/`) and share the facts.
+
+## Project decisions
+
+The project uses a reactive approach for handling search results, it uses Kotlin Coroutines Flow to do so.
+The project it is a little modular because it modules should be unbundled from Android API and should be Kotlin Multiplatform.
